@@ -41,13 +41,14 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE_CLASSES = [
-    # 'django.middleware.security.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'onehealth.disable.DisableCSRF',
 ]
 
 ROOT_URLCONF = 'onehealth.urls'
@@ -124,9 +125,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-MIDDLEWARE_CLASSES = (
-    'onehealth.disable.DisableCSRF',
-)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
