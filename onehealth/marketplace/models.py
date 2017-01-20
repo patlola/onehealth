@@ -22,6 +22,11 @@ def upload_build(self, filename):
     return 'uploads/' + self.name
 
 
+def upload_logo(self, filename):
+
+    return 'images/' + self.name
+
+
 class Apps(BaseModel):
     """App model."""
 
@@ -29,6 +34,7 @@ class Apps(BaseModel):
     version_number = models.DecimalField(validators=[MinValueValidator(0.0)], decimal_places=6, max_digits=9)
     build = models.FileField(upload_to=upload_build)
     webhook = models.URLField()
+    logo = models.ImageField(upload_to=upload_logo)
 
     def __unicode__(self):
         """Return name of entity."""

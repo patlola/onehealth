@@ -137,3 +137,9 @@ STATIC_ROOT = 'static'
 MEDIA_ROOT = 'media'
 
 MEDIA_URL = '/media/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
