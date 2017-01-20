@@ -53,18 +53,26 @@ class AppAction(APIView):
             request_data = json.loads(request.body)
             practo_account = request_data['practo_account']
             app_id = request_data['app_id']
+            action = request_data['action']
             try:
                 app = Apps.objects.get(id=app_id)
             except Apps.DoesNotExist:
                 app = None
-            if app and app_id:
-                user_app = UserApp.objects.get_or_create(practo_account=practo_account, app=app)
+            if app and app_id and action:
+                if action == 'install':
+                    user_app = UserApp.objects.get_or_create(practo_account=practo_account, app=app)
+                else:
+                    try:
+                        user_app = UserApp.objects.get(practo_account=practo_account, app=app).delete()
+                        return Response("Deleted")
+                    except UserApp.DoesNotExist:
+                        user_app = None
             else:
                 user_app = None
         except KeyError:
             return Response("Data key Missing", status=status.HTTP_400_BAD_REQUEST)
 
-        if user_app:
+        if user_app and action == 'install':
             return Response("created", 201)
         else:
             return Response("App DoesNotExist", 404)
