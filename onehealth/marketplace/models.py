@@ -18,6 +18,7 @@ class BaseModel(models.Model):
 
 
 def upload_build(self, filename):
+
     return 'uploads/' + self.name
 
 
@@ -43,8 +44,7 @@ class UserApp(BaseModel):
     """User App model."""
 
     practo_account = models.PositiveIntegerField(verbose_name='User')
-    app = models.ForeignKey("Apps", on_delete=models.PROTECT,
-                            related_name="users")
+    app = models.ForeignKey("Apps", related_name="users")
 
     def __unicode__(self):
         return self.app
@@ -53,3 +53,46 @@ class UserApp(BaseModel):
         db_table = "user_apps"
         verbose_name = "UserApp"
         verbose_name_plural = "UserApps"
+
+
+class AppModels(BaseModel):
+    app = models.ForeignKey("Apps")
+    model_name = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.model_name
+
+    class Meta:
+        db_table = "app_models"
+        verbose_name = "AppModel"
+        verbose_name_plural = "AppModels"
+
+
+class AppModelFields(BaseModel):
+    app_model = models.ForeignKey("AppModels")
+    field_name = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.field_name
+
+    class Meta:
+        db_table = "app_model_fields"
+        verbose_name = "AppModelField"
+        verbose_name_plural = "AppModelFields"
+
+
+class UserData(BaseModel):
+    """all the users data with apps."""
+
+    practo_account = models.PositiveIntegerField()
+    model_field = models.ForeignKey("AppModelFields")
+    data_type = models.CharField(max_length=50)
+    data = models.TextField()
+
+    def __unicode__(self):
+        return self.model_field
+
+    class Meta:
+        db_table = "user_data"
+        verbose_name = "UserData"
+        verbose_name_plural = "UserData"
