@@ -9,6 +9,7 @@ from rest_framework import status
 from marketplace.models import Apps
 from marketplace.models import AppModels, UserApp
 from marketplace.serializers.app_serializer import AppsSerializer
+# from marketplace.serializers.user_apps_serializer import
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
@@ -33,6 +34,18 @@ class AppAction(APIView):
 
     def process_request(self, request):
         setattr(request, '_dont_enforce_csrf_checks', True)
+
+    def get(self, request):
+        query_paramters = request.query_params
+        apps_data = []
+        if query_paramters.get('practo_account'):
+            user_apps = UserApp.objects.filter(practo_account=query_paramters.get('practo_account'))
+            for user_app in user_apps:
+                if user_app.app:
+                    app_data = AppsSerializer(user_app.app)
+                    apps_data.append(app_data.data)
+
+        return Response(apps_data)
 
     def post(self, request):
 
