@@ -37,3 +37,19 @@ class Apps(BaseModel):
         db_table = "apps"
         verbose_name = "App"
         verbose_name_plural = "Apps"
+
+
+class UserApp(BaseModel):
+    """User App model."""
+
+    practo_account = models.PositiveIntegerField(verbose_name='User')
+    app = models.ForeignKey("Apps", on_delete=models.PROTECT,
+                            related_name="users")
+
+    def __unicode__(self):
+        return self.app
+
+    class Meta:
+        db_table = "user_apps"
+        verbose_name = "UserApp"
+        verbose_name_plural = "UserApps"
