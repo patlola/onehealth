@@ -1,5 +1,6 @@
 venv/
 static/
+media/
 *.DS_Store
 *.pyc
 __pycache__

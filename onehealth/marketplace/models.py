@@ -17,8 +17,8 @@ class BaseModel(models.Model):
         abstract = True
 
 
-def upload_build(self):
-    return self.name + self.version_number
+def upload_build(self, filename):
+    return 'uploads/' + self.name
 
 
 class Apps(BaseModel):
