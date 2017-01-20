@@ -18,13 +18,15 @@ class BaseModel(models.Model):
 
 
 def upload_build(self, filename):
+    extension = filename[filename.rfind('.'):]
 
-    return 'uploads/' + self.name
+    return 'uploads/' + self.name + extension
 
 
 def upload_logo(self, filename):
 
-    return 'images/' + self.name
+    extension = filename[filename.rfind('.'):]
+    return 'images/' + self.name + extension
 
 
 class Apps(BaseModel):
