@@ -143,3 +143,5 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     )
 }
+
+HOSTED_URL = 'http://onehealth.local'
