@@ -1,1 +1,9 @@
 venv/
+static/
+*.DS_Store
+*.pyc
+__pycache__
+logs
+._*
+.*
+
