@@ -72,7 +72,27 @@ class AppAction(APIView):
         except KeyError:
             return Response("Data key Missing", status=status.HTTP_400_BAD_REQUEST)
 
-        if user_app and action == 'install':
-            return Response("created", 201)
+        if (user_app and action == 'install') or action == 'uninstall':
+            user_apps = UserApp.objects.filter(practo_account=practo_account)
+            apps_data = []
+            for user_app in user_apps:
+                if user_app.app:
+                    app_data = AppsSerializer(user_app.app)
+                    apps_data.append(app_data.data)
+
+            filenames = map(lambda x: x.get('build_path'), apps_data)
+            app_ids = map(lambda x: str(x.get('id')), apps_data)
+            app_id_string = "_".join(app_ids)
+
+            with open('/tmp/' + app_id_string + '.txt', 'w') as outfile:
+                for fname in filenames:
+                    with open(fname) as infile:
+                        for line in infile:
+                            outfile.write(line)
+
+            with open('/tmp/' + app_id_string + '.txt', 'r') as outfile:
+
+                return Response(outfile.read())
+
         else:
             return Response("App DoesNotExist", 404)
