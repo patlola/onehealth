@@ -64,7 +64,6 @@ class AppAction(APIView):
                 else:
                     try:
                         user_app = UserApp.objects.get(practo_account=practo_account, app=app).delete()
-                        return Response("Deleted")
                     except UserApp.DoesNotExist:
                         user_app = None
             else:
@@ -72,7 +71,7 @@ class AppAction(APIView):
         except KeyError:
             return Response("Data key Missing", status=status.HTTP_400_BAD_REQUEST)
 
-        if (user_app and action == 'install') or action == 'uninstall':
+        if user_app and (action == 'install' or action == 'uninstall'):
             user_apps = UserApp.objects.filter(practo_account=practo_account)
             apps_data = []
             for user_app in user_apps:
